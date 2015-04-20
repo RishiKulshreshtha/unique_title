@@ -1,0 +1,18 @@
+<?php
+
+/**
+ * Implements hook_node_validate().
+ */
+function module_node_validate($node, $form, &$form_state) {
+  if (!isset($node->nid)) {
+    $title = $form_state['values']['title'];
+    $results = db_select('node')->fields('node', array('title'))->condition('title', $title, '=')->execute();
+    $matches = array();
+    foreach ($results as $result) {
+      $matches[$result->title] = check_plain($result->title);
+    }
+    if (isset($matches) && !empty($matches)) {
+      form_set_error('title', t('Title must be unique'));
+    }
+  }
+}
