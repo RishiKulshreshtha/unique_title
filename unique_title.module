@@ -3,7 +3,7 @@
 /**
  * Implements hook_node_validate().
  */
-function module_node_validate($node, $form, &$form_state) {
+function unique_title_node_validate($node, $form, &$form_state) {
   if (!isset($node->nid)) {
     $title = $form_state['values']['title'];
     $results = db_select('node')->fields('node', array('title'))->condition('title', $title, '=')->execute();
